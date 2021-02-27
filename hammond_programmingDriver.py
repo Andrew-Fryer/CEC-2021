@@ -12,8 +12,10 @@ if __name__ == '__main__':
     # Display output:
     visualize_data(predicted_power_usage)
     # output results to csv:
+    predicted_power_usage.columns = [
+        'Zone 1', 'Zone 2', 'Zone 3', 'Zone 4', 'Zone 5', 'Zone 6', 'Zone 7']
+    predicted_power_usage.index = ['Jan', 'Feb', 'Mar', 'Apr',
+                                   'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
     predicted_power_usage.to_csv(r"./L1_output.csv")
 
     # Level 2
-    
-
