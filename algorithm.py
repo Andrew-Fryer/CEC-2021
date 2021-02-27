@@ -21,7 +21,7 @@ Pn = []
 for i in range(12):
     tmp = []
     for j in range(7):
-        tmp.append(power_usage.iloc[i][j] - 1000*sum(Pg[j]))
+        tmp.append(power_usage.iloc[i][j] - sum(Pg[j]))
     Pn.append(tmp)
 Pn = np.array(Pn)
 
@@ -31,7 +31,7 @@ for i in range(12):
     power = 0
     renewables = 0
     cost = 0
-    ppr_copy = 1000*ppr.copy()
+    ppr_copy = ppr.copy()
     #Use local power first
     for j in range(len(cur)):
         index = 4
