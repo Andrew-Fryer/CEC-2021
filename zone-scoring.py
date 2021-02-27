@@ -42,7 +42,13 @@ def total_province_cost():
         total += zone_costs[key]
 
 
-# Meeting power requirements
+# What zones are connected to the zone I'm looking in?
+# returns of a list of the zones i'm near
+def zones_nearby():
+    return
+
+
+# Meeting power requirements # this is a greedy algorithm
 '''
 Input:
 predicted_power_demand: how much power is needed for this month in this zone
@@ -51,13 +57,6 @@ power_produced_locally: how much power does the province produce locally
 Output:
 What is the order of using power from provinces + how much from each (depends on the cost)
 '''
-
-# What zones are connected to the zone I'm looking in?
-# returns of a list of the zones i'm near
-
-
-def zones_nearby():
-    return
 
 
 def meet_power_requirements(predicted_power_demand, power_produced_locally, e, h_emissive, b, h_non_emissive):
