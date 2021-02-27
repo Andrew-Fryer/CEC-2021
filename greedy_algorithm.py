@@ -21,7 +21,9 @@ for energy_type in ['thermal', 'combustion']:
 
 supply_df = plant_production_rates.copy(deep=True).set_index('zone').unstack()
 supply_dict = supply_df.T.to_dict()
-supply = [{'zone': t[0], 'energy_type': t[1], 'supply': supply_dict[t]} for t in supply_dict]
+supply_left_dict = {}
+for t in supply_dict:
+    supply_left_dict[t] = supply_dict[t]
 
 def get_penalty_factor(current_zone_index, energy_type, other_zone):
     assert(energy_type in energy_types)
@@ -46,12 +48,17 @@ for zone_index in range(len(nb_zones)):
     for source in sources:
         t, penalty_factor = source
         energy_type, zone = t
-        usage = min(demand, supply_dict[t])
-        #demand_df.at[name + '_usage', zone_index] = usage
+        usage = min(demand, supply_left_dict[t])
+        print("using", usage)
+        supply_left_dict[t] -= usage
         demand -= usage
         cost += penalty_factor * usage
     assert(demand == 0)
 
 # Finally, sell any leftover power
+for t in supply_left_dict:
+    # sell
+    pass
+
 
 pass
