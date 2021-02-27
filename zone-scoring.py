@@ -6,7 +6,7 @@ zone_costs = dict.fromkey(zone_keys, 0)
 
 # Returns a zone's cost per month
 '''
-h_zone: kWh -> power sent from external zones -> vector (python list)
+h_zone: kWh -> power sent from zones -> vector (python list)
 p: $/kWh -> penalty for sending power to zone -> vector (python list)
 e: $/kWh -> carbon tax (for generated/emissive) -> float
 h_emissive: kWh -> total generated in zone (emissive) -> float
@@ -20,13 +20,27 @@ Output:
 '''
 
 
-def get_zone_cost(p_zone, h_zone, e, h_emissive, b, h_non_emissive):
-    external_zone_power = 0
+# def get_zone_cost(p_zone, h_zone, e, h_emissive, b, h_non_emissive):
+#     external_zone_power = 0
 
-    for i in len(p_zone):
-        external_zone_power += p_zone[i]*h_zone[i]
+#     for i in len(p_zone):
+#         external_zone_power += p_zone[i]*h_zone[i]
 
-    return external_zone_power + cost_local_power_production(e, h_emissive, b, h_non_emissive)
+#     return external_zone_power + cost_local_power_production(e, h_emissive, b, h_non_emissive)
+
+def dot_product(v1, v2):
+    assert(len(v1) == len(v2))
+
+    return sum([[x*y for x in v1] for y in v2])
+
+def cost(zone_penalty_vector, zone_power_vector, emissive_power, non_emissive_power):
+    return dot_product(zone_penalty_vector, zone_power_vector) + emission_tax * emissive_power - non_emission_tax * non_emissive_power
+
+def get_zone_penalty_vector(zone):
+    assert(zone in total_zones)
+
+    return penalty_values[zone]
+# We need to dynamically figure out what the cost of pulling power from each external zone is and the cost of each internal power type
 
 
 # cost of power produced locally
