@@ -31,7 +31,5 @@ for zone in all_energy_data.drop(labels=["year", "months"], axis=1):
 
 
 
-
-
 fig.update_layout(template="ggplot2")
 fig.show()
