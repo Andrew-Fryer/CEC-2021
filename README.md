@@ -53,6 +53,10 @@ Shows which energies are emissive and non-emissive
 
 ### algorithm_matrix.py
 
+### zone-scoring.py
+
+Initial file with thought process notes for algorithm (deprecated)
+
 ## Built With
 
 python -> pandas, numpy, plotly
