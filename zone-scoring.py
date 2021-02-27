@@ -72,9 +72,23 @@ def meet_power_requirements(predicted_power_demand, power_produced_locally, e, h
         # Need to be comparing each source individually
 
         '''
+        list_of_sources_in_current_zone = {} -> this dictionary should be key=source, value=cost_of_power
+        for loop with results from zones_nearby:
+            sources_in_external_zones={}{} -> assign the zone's key1=zone, key2=source, value=cost_of_power
 
+        compare power values with current zone and see if anything improves it (while still meeting the same amount of power)
+
+        return list of dictionaries containing which zone & source to pull from (no two 2d dictionaries in this one) in order of best to worst
         '''
 
     # No?
     # Check combinations of the power cost with external power
     # Is it cheap to even use the zone's power at all (like say if it's not green)?
+
+    '''
+        What zones that are nearby can actually meet our power demands?
+        check zone_nearby if they can produce enough power to meet our demand?
+        if yes? continue with this list. if no? branch to other zones
+
+
+    '''
