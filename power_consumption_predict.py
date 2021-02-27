@@ -91,6 +91,8 @@ for i in range(7):
 #Function used to get an estimate of power consuption for a given zone, year, and month
 zone_power_pred = lambda z, y, m : np.poly1d(models[0][z])(m) + month_adj_models[z][m](y)
 
+#--------------------------- Output Functions -------------------------------
+
 '''
 get_predicted_power_usage:
     Provides the power consumption data frame for a given year
