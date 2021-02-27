@@ -2,12 +2,22 @@ from parse import *
 import numpy as np
 from power_consumption_predict import *
 
+'''
+algorithm:
+    The main algorithm to optimize NB energy demands.
+    
+    year - The year to analyze
+    
+    output - The requested output in a pandas dataframe
+'''
 def algorithm(year):
+    #Load and process neccessary data
     power_usage = get_predicted_power_usage(year)
     
     penalties = np.array(penalty_values.iloc[0:, 1:])
     ppr = np.array(plant_production_rates.iloc[0:, 1:])
     
+    #Loop over every month and calculate total cost, power consumption, and renewables
     out = []
     for i in range(12):
         cur = np.array(power_usage[0].iloc[i])
@@ -18,11 +28,14 @@ def algorithm(year):
         #Use local power first
         for j in range(len(cur)):
             index = 4
-            while (index >= 0 and cur[j] > 0 and ppr_copy[j][index] >= 0):
+            #Loop through all energy sources, trying to use renewables first
+            while (index >= 0 and cur[j] > 0 and ppr_copy[j][index] >= 0): 
                 change = min(cur[j], ppr_copy[j][index])
+                #Decrement needed and used power
                 cur[j] -= change
                 ppr_copy[j][index] -= change
                 power += change
+                #Add values where approriate
                 if (index >= 3):
                     renewables += change
                 emitters = 0
@@ -31,16 +44,19 @@ def algorithm(year):
                 nonemitters = 0
                 if (index >= 2):
                     nonemitters += change
+                #Update cost
                 cost += penalties[j][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
                 index -= 1
         
         #Deal with zones who didnt have enough power
         need_power = []
+        #Find zones that need power
         for j in range(len(cur)):
             if cur[j] > 0:
                 need_power.append(j)
         for j in range(len(cur)):
             if j in need_power:
+                #Loop through zones with excess power, saving the lowest cost
                 count = 0
                 best_i = -1
                 best = 10000000000000
