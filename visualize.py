@@ -7,7 +7,7 @@ from parse import *
 
 
 energy_trends = [trend_2015, trend_2016, trend_2017, trend_2018]
-all_energy_data = pd.concat(energy_trends).reset_index().drop(["index"])
+all_energy_data = pd.concat(energy_trends).reset_index().drop(labels=["index"], axis=1)
 
 print(all_energy_data)
 # print(penalty_values)
@@ -17,12 +17,7 @@ print(all_energy_data)
 
 
 # get all of the energy from one of the 
-years = [2015, 2016, 2017, 2018]
 
-for trend in energy_trends:
-    energy_sum = trend.sum(axis=1)
-    fig = go.Figure(data=go.Scatter(x=energy_sum.index,y=energy_sum.array))
-    fig.show()
 
 
 
