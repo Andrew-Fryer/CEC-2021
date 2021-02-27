@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 
 #The min and max degree values for polynomial regression
-MAX_DEG = 10
+MAX_DEG = 11
 MIN_DEG = 1
 
 #----------------------------- Helper functions ----------------------------
@@ -26,19 +26,19 @@ def generate_models(trend):
         months = np.array([i for i in range(12)])
         
         #Try a range of degrees, between MIN_DEG and MAX_DEG, to find optimal model
-        best = None
-        best_covar_sum = 10000000000000000000
-        for j in range(MIN_DEG, MAX_DEG):
-            #Fit the model
-            model = np.polyfit(months, cur_zone_data, j, cov=True)
-            covar_sum = 0
-            for k in range(len(model[1])):
-                covar_sum += model[1][k][k]
-            #If current model has lowest covariance, set it to best
-            if (covar_sum < best_covar_sum):
-                best = model[0]
-                best_covar_sum = covar_sum
-        
+        # best = None
+        # best_covar_sum = 10000000000000000000
+        # for j in range(MIN_DEG, MAX_DEG):
+        #     #Fit the model
+        #     model = np.polyfit(months, cur_zone_data, j, cov=True)
+        #     covar_sum = 0
+        #     for k in range(len(model[1])):
+        #         covar_sum += model[1][k][k]
+        #     #If current model has lowest covariance, set it to best
+        #     if (covar_sum < best_covar_sum):
+        #         best = model[0]
+        #         best_covar_sum = covar_sum
+        best = np.polyfit(months, cur_zone_data, 10)
         models.append(best)
     
     return models
