@@ -2,13 +2,11 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
-import power_consumption_predict
-
 # Get all variables as values from parse.py
 from parse import *
 
 
-def visualize_data(models):
+def visualize_data(pred_consumption):
     energy_trends = [trend_2015, trend_2016, trend_2017, trend_2018]
     all_energy_data = pd.concat(energy_trends).reset_index().drop(
         labels=["index"], axis=1)
@@ -17,8 +15,6 @@ def visualize_data(models):
         all_energy_data["months"], all_energy_data["year"].map(str))]
 
     fig = go.Figure()
-    predConsumption = power_consumption_predict.get_predicted_power_usage(models,
-        2022)
     colours = ["#F8B195",
                "#F67280",
                "#C06C84",
@@ -30,13 +26,13 @@ def visualize_data(models):
 
     actual_energy = all_energy_data.drop(labels=["year", "months"], axis=1)
 
-    for zone, index, colour in zip(actual_energy, predConsumption, colours):
+    for zone, index, colour in zip(actual_energy, pred_consumption, colours):
         actual = go.Scatter(x=dates,
                             y=all_energy_data[zone],
                             name=f'{zone} Actual',
                             line=dict(color=colour))
         predicted = go.Scatter(x=newMonthLabels,
-                               y=predConsumption[index],
+                               y=pred_consumption[index],
                                name=f'{zone} Predicted',
                                line=dict(color=colour, dash='dash'),
                                mode="lines")
