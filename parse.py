@@ -15,8 +15,8 @@ plant_production_rates = pd.read_csv('Information/PlantProductionRates.csv', nam
 plant_production_rates.insert(loc=0, column='zone', value=nb_zones.copy())
 # normalize values from MW to kW
 for e_type in energy_types:
-    plant_production_rates[e_type] = plant_production_rates[e_type] * 1000
-# plant_production_rates are now all in kW
+    plant_production_rates[e_type] = plant_production_rates[e_type] * 1000 * 730
+# plant_production_rates are now all in kWh
 
 penalty_values = pd.read_csv('Information/PenaltyValues.csv', header=None, names=total_zones.copy())
 penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
