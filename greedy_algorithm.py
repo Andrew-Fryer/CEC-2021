@@ -5,20 +5,6 @@ from clean_energy_types import *
 predicted_power_usage = get_predicted_power_usage(2019)
 demands = list(predicted_power_usage.loc[0])
 
-demand_df = penalty_values.copy(deep=True).head(7)
-demand_df.insert(loc=1, column='demand', value=demands)
-demand_df['usage'] = demand_df['demand'].copy()
-for zone in nb_zones:
-    demand_df[zone + '_usage'] = 0
-
-for energy_type in ['nuclear', 'hydro', 'wind']:
-    demand_df[energy_type] = -emission_tax
-    demand_df[energy_type + '_usage'] = 0
-
-for energy_type in ['thermal', 'combustion']:
-    demand_df[energy_type]= non_emission_tax
-    demand_df[energy_type + '_usage'] = 0
-
 supply_df = plant_production_rates.copy(deep=True).set_index('zone').unstack()
 supply_dict = supply_df.T.to_dict()
 supply_left_dict = {}
@@ -39,7 +25,7 @@ def get_penalty_factor(current_zone_index, energy_type, other_zone):
 # Then, ensure that each zone gets enough power
 cost = 0
 for zone_index in range(len(nb_zones)):
-    demand = demand_df['demand'][zone_index]
+    demand = demands[zone_index]
 
     sources = [(t, get_penalty_factor(zone_index, t[0], t[1])) for t in supply_dict]
 
