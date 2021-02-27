@@ -45,7 +45,7 @@ def algorithm(year):
                 if (index >= 2):
                     nonemitters += change
                 #Update cost
-                cost += penalties[j][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                cost += penalties[j][j]*change + emitters*emission_tax - nonemitters*non_emission_tax
                 index -= 1
         
         #Deal with zones who didnt have enough power
@@ -106,3 +106,5 @@ def algorithm(year):
         out.append([cost, power, renewables/power])
         
     return pd.DataFrame(out)
+
+algorithm(2019)
