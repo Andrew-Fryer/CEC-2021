@@ -18,7 +18,7 @@ def visualize_data(models):
 
     fig = go.Figure()
     predConsumption = power_consumption_predict.get_predicted_power_usage(models,
-        2019)
+                                                                          2022)
     colours = ["#F8B195",
                "#F67280",
                "#C06C84",
