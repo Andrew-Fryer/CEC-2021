@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
+# importing custom memory tracking decorator
+from track_memory import track_memory_use, plot_memory_use
+
 # The min and max degree values for polynomial regression
 MAX_DEG = 11
 MIN_DEG = 1
@@ -124,7 +127,7 @@ get_predicted_power_usage:
     output - a dataframe in similar fashion to the given past years power consumption
 '''
 
-
+@track_memory_use(close=False, return_history=True, plot=True)
 def get_predicted_power_usage(year):
     out = []
     for i in range(NUMBER_OF_MONTHS):

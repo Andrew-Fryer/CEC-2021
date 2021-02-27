@@ -2,10 +2,13 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
+# importing custom memory tracking decorator
+from track_memory import track_memory_use, plot_memory_use
+
 # Get all variables as values from parse.py
 from parse import *
 
-
+@track_memory_use(close=False, return_history=True, plot=True)
 def visualize_data(pred_consumption):
     energy_trends = [trend_2015, trend_2016, trend_2017, trend_2018]
     all_energy_data = pd.concat(energy_trends).reset_index().drop(
@@ -48,4 +51,11 @@ def visualize_data(pred_consumption):
                       xaxis_title="Month and Year",
                       yaxis_title="Power Requirements (GWh)",
                       legend_title="Legend")
+    fig.show()
+
+
+def visualize_mem_use(memory_usage):
+    fig = go.Figure()
+    samples_num = len(memory_usage[1])
+    fig.add_trace(go.Scatter(x=np.linspace(0,samples_num/1000,samples_num), y=memory_usage[1]))
     fig.show()
