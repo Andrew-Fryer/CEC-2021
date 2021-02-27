@@ -11,15 +11,15 @@ incentive_rates = pd.read_csv('Information/IncentiveRates.csv', header=None)
 [emission_tax, non_emission_tax] = incentive_rates.values[0]
 # incentive_rates are already in kWh
 
-penalty_values = pd.read_csv('Information/PenaltyValues.csv', header=None, names=total_zones.copy())
-penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
-
 plant_production_rates = pd.read_csv('Information/PlantProductionRates.csv', names=energy_types.copy())
 plant_production_rates.insert(loc=0, column='zone', value=nb_zones.copy())
 # normalize values from MW to kW
 for e_type in energy_types:
     plant_production_rates[e_type] = plant_production_rates[e_type] * 1000
 # plant_production_rates are now all in kW
+
+penalty_values = pd.read_csv('Information/PenaltyValues.csv', header=None, names=total_zones.copy())
+penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
 
 trend_2015 = pd.read_csv('PastYearData/NBTrend2015.csv', header=None, names=nb_zones.copy())
 trend_2015.insert(loc=0, column='months', value=months.copy())
