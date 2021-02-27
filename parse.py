@@ -24,15 +24,19 @@ penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
 
 trend_2015 = pd.read_csv('PastYearData/NBTrend2015.csv', header=None, names=nb_zones.copy())
 trend_2015.insert(loc=0, column='months', value=months.copy())
+trend_2015.insert(loc=1, column='year', value=2015)
 
 trend_2016 = pd.read_csv('PastYearData/NBTrend2016.csv', header=None, names=nb_zones.copy())
 trend_2016.insert(loc=0, column='months', value=months.copy())
+trend_2016.insert(loc=1, column='year', value=2016)
 
 trend_2017 = pd.read_csv('PastYearData/NBTrend2017.csv', header=None, names=nb_zones.copy())
 trend_2017.insert(loc=0, column='months', value=months.copy())
+trend_2017.insert(loc=1, column='year', value=2017)
 
 trend_2018 = pd.read_csv('PastYearData/NBTrend2018.csv', header=None, names=nb_zones.copy())
 trend_2018.insert(loc=0, column='months', value=months.copy())
+trend_2018.insert(loc=1, column='year', value=2018)
 
 # normalize all trend data from GWh to kWh
 for df in [trend_2015, trend_2016, trend_2017, trend_2018]:
