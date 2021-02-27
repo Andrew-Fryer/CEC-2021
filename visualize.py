@@ -21,3 +21,17 @@ print(all_energy_data)
 
 
 
+dates = [' '.join(i) for i in zip(all_energy_data["months"],all_energy_data["year"].map(str))]
+
+fig = go.Figure()
+
+for zone in all_energy_data.drop(labels=["year", "months"], axis=1):
+    print(zone)
+    fig.add_traces([go.Scatter(x=dates, y=all_energy_data[zone], name=zone)])
+
+
+
+
+
+fig.update_layout(template="ggplot2")
+fig.show()
