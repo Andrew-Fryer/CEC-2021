@@ -25,6 +25,7 @@ for t in supply_dict:
 
 # Then, ensure that each zone gets enough power
 cost = 0
+usages = {}
 for zone_index in range(len(nb_zones)):
     demand = demands[zone_index]
 
@@ -33,10 +34,13 @@ for zone_index in range(len(nb_zones)):
     sources = sorted(sources, key=lambda t: t[1])
 
     for source in sources:
+        if(demand == 0):
+            break
         t, penalty_factor = source
         energy_type, zone = t
         usage = min(demand, supply_left_dict[t])
-        print("using", usage)
+        if(usage > 0):
+            usages[(zone_index, zone, energy_type)] = usage
         supply_left_dict[t] -= usage
         demand -= usage
         cost += penalty_factor * usage
