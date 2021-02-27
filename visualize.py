@@ -18,7 +18,7 @@ def visualize_data(models):
 
     fig = go.Figure()
     predConsumption = power_consumption_predict.get_predicted_power_usage(models,
-        2019)
+        2022)
     colours = ["#F8B195",
                "#F67280",
                "#C06C84",
@@ -26,7 +26,7 @@ def visualize_data(models):
                "#355C7D",
                "#99B898",
                "#547980"]
-    newMonthLabels = [f"{month} 2019" for month in months]
+    newMonthLabels = [f"{month} 2022" for month in months]
 
     actual_energy = all_energy_data.drop(labels=["year", "months"], axis=1)
 
