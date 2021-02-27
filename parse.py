@@ -20,6 +20,7 @@ for e_type in energy_types:
 
 penalty_values = pd.read_csv('Information/PenaltyValues.csv', header=None, names=total_zones.copy())
 penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
+# penalty_values are already in $/kWhr
 
 trend_2015 = pd.read_csv('PastYearData/NBTrend2015.csv', header=None, names=nb_zones.copy())
 trend_2015.insert(loc=0, column='months', value=months.copy())
