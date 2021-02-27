@@ -20,7 +20,7 @@ for e_type in energy_types:
 
 penalty_values = pd.read_csv('Information/PenaltyValues.csv', header=None, names=total_zones.copy())
 penalty_values.insert(loc=0, column='zone', value=total_zones.copy())
-# penalty_values are already in $/kWhr
+# penalty_values are already in $/kWh
 
 trend_2015 = pd.read_csv('PastYearData/NBTrend2015.csv', header=None, names=nb_zones.copy())
 trend_2015.insert(loc=0, column='months', value=months.copy())
@@ -33,5 +33,11 @@ trend_2017.insert(loc=0, column='months', value=months.copy())
 
 trend_2018 = pd.read_csv('PastYearData/NBTrend2018.csv', header=None, names=nb_zones.copy())
 trend_2018.insert(loc=0, column='months', value=months.copy())
+
+# normalize all trend data from GWh to kWh
+for df in [trend_2015, trend_2016, trend_2017, trend_2018]:
+    for zone in nb_zones:
+        df[zone] = df[zone] * 1000000
+# all trend data is now in kWh
 
 pass
