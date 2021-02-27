@@ -1,4 +1,4 @@
-import * from parse
+from parse import *
 
 zone_keys = ["z1", "z2", "z3", "z4", "z5",
              "z6", "z7", "z8", "z9", "z10", "z11"]
@@ -33,8 +33,10 @@ def dot_product(v1, v2):
 
     return sum([[x*y for x in v1] for y in v2])
 
+
 def cost(zone_penalty_vector, zone_power_vector, emissive_power, non_emissive_power):
     return dot_product(zone_penalty_vector, zone_power_vector) + emission_tax * emissive_power - non_emission_tax * non_emissive_power
+
 
 def get_zone_penalty_vector(zone):
     assert(zone in total_zones)

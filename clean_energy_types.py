@@ -1,4 +1,4 @@
-import energy_types from parse
+from parse import energy_types
 
 def is_non_emissive(energy_type):
     assert(energy_type in energy_types)
