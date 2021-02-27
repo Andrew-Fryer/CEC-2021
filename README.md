@@ -1,6 +1,7 @@
 # New Brunswick's Renewable Energy
 
-Solves the Canadian Engineering Competition programming challenge for 2021.
+New Brunswick contains many different energy sources, both renewable and non-renewable. The goal of this projects was to predict the future energy requirements
+of the province based on past data, and use these predictions to maximize the renewable energy use while minimizng the power generation costs.
 
 ## Getting Started
 
