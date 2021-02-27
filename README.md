@@ -51,7 +51,7 @@ Shows which energies are emissive and non-emissive
 
 ### algorithm.py
 
-### algorithm_matrix.py
+Contains the function which runs the optimizing algorithm on a year of energy data for New Brunswick
 
 ### zone-scoring.py
 
