@@ -1,6 +1,7 @@
 from parse import * 
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 MAX_DEG = 10
 MIN_DEG = 1
@@ -13,7 +14,7 @@ def generate_models(trend):
         months = np.array([i for i in range(12)])
         
         best = None
-        best_covar_sum = 1000000
+        best_covar_sum = 10000000000000000000
         for j in range(MIN_DEG, MAX_DEG):
             model = np.polyfit(months, cur_zone_data, j, cov=True)
             covar_sum = 0
@@ -58,6 +59,11 @@ month_adj_models = []
 for i in range(7):
     month_adj_models.append(generate_monthly_adjustments(zone_models[i]))
     
-zone_power_pred = []
-for i in range(7):
-    zone_power_pred.append(lambda z, y, m : np.poly1d(models[0][z])(m) + month_adj_models[z](y))
+zone_power_pred = lambda z, y, m : np.poly1d(models[0][z])(m) + month_adj_models[z][m](y)
+
+def get_predicted_power_usage(year):
+    out = []
+    for i in range(12):
+        month_data = [zone_power_pred(j, year-2015, i) for j in range(7)]
+        out.append(month_data)
+    return pd.DataFrame(out)
