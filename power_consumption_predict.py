@@ -10,6 +10,8 @@ MIN_DEG = 1
 # Number of zones to pull energy from
 NUMBER_OF_ZONES = 7
 
+NUMBER_OF_MONTHS = 12
+
 # ----------------------------- Helper functions ----------------------------
 
 '''
@@ -76,34 +78,35 @@ def generate_monthly_adjustments(zone_models):
     # Return a list of functions which each take the year as an input
     return [lambda x: monthly_models[i](x)-np.poly1d(zone_models[0])(i) for i in range(12)]
 
-
-# Generate all models from given trend data
-models = []
-models.append(generate_models(trend_2015))
-models.append(generate_models(trend_2016))
-models.append(generate_models(trend_2017))
-models.append(generate_models(trend_2018))
-
 # Reconfigure models generated to provide zone models
-zone_models = []
-for i in range(NUMBER_OF_ZONES):
-    to_add = []
-    for j in range(len(models)):
-        to_add.append(models[j][i])
-    zone_models.append(to_add)
 
-# Generate adjustment models from zone models
-month_adj_models = []
-for i in range(NUMBER_OF_ZONES):
-    month_adj_models.append(generate_monthly_adjustments(zone_models[i]))
+
+def generate_zone_models(models):
+    zone_models = []
+    for i in range(NUMBER_OF_ZONES):
+        to_add = []
+        for j in range(len(models)):
+            to_add.append(models[j][i])
+        zone_models.append(to_add)
+    return zone_models
+
+
+def generate_month_adjustment_models(zone_models):
+    month_adj_models = []
+    for i in range(NUMBER_OF_ZONES):
+        month_adj_models.append(generate_monthly_adjustments(zone_models[i]))
+    return month_adj_models
 
 # Function used to get an estimate of power consuption for a given zone, year, and month
 
 
-def zone_power_pred(z, y, m): return np.poly1d(
-    models[0][z])(m) + month_adj_models[z][m](y)
+def zone_power_pred(z, y, m, models):
+    zone_models = generate_zone_models(models)
+    month_adj_models = generate_month_adjustment_models(zone_models)
+    return np.poly1d(models[0][z])(m) + month_adj_models[z][m](y)
 
 # --------------------------- Output Functions -------------------------------
+
 
 '''
 get_predicted_power_usage:
@@ -115,10 +118,10 @@ get_predicted_power_usage:
 '''
 
 
-def get_predicted_power_usage(year):
+def get_predicted_power_usage(models, year):
     out = []
-    for i in range(12):
-        month_data = [zone_power_pred(j, year-2015, i)
+    for i in range(NUMBER_OF_MONTHS):
+        month_data = [zone_power_pred(j, year-2015, i, models)
                       for j in range(NUMBER_OF_ZONES)]
         out.append(month_data)
     return pd.DataFrame(out)
