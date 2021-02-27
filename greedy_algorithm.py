@@ -1,5 +1,6 @@
 from parse import emission_tax, non_emission_tax, penalty_values, plant_production_rates, nb_zones, total_zones
 from power_consumption_predict import *
+from clean_energy_types import *
 
 predicted_power_usage = get_predicted_power_usage(2019)
 demands = list(predicted_power_usage.loc[0])
@@ -24,8 +25,11 @@ supply = [{'zone': t[0], 'energy_type': t[1], 'supply': supply_dict[t]} for t in
 
 def get_penalty_factor(current_zone_index, energy_type, other_zone):
     assert(energy_type in energy_types)
-    #if(energy_type in ['nuclear', 'hydro', 'wind']):
-    return penalty_values[other_zone][zone_index]
+    transmission_cost = penalty_values[other_zone][zone_index]
+    if(is_non_emissive(energy_type)):
+        return transmission_cost - non_emission_tax
+    else:
+        return transmission_cost + emission_tax
 
 # for each month:
 # First, try to distribute power most efficiently
