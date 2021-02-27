@@ -1,5 +1,5 @@
-import emission_tax, non_emission_tax, penalty_values, plant_production_rates, nb_zones, total_zones from parse
-
+from parse import emission_tax, non_emission_tax, penalty_values, plant_production_rates, nb_zones, total_zones
+from power_consumption_predict import *
 
 
 def dot_product(v1, v2):
@@ -15,20 +15,23 @@ def get_zone_penalty_vector(zone):
 
     return penalty_values[zone]
 
-demands = [] # from Farley
 
-demand_df = penalty_values.copy(deep=True)
+
+predicted_power_usage = get_predicted_power_usage(2019)
+demands = list(predicted_power_usage.loc[0])
+
+demand_df = penalty_values.copy(deep=True).head(7)
 demand_df.insert(loc=1, column='demand', value=demands)
 for zone in nb_zones:
-    demand_df.insert(column=zone + '_usage', value=0)
+    demand_df[zone + '_usage'] = 0
 
 for energy_type in ['nuclear', 'hydro', 'wind']:
-    demand_df.insert(column=energy_type, value=-emission_tax)
-    demand_df.insert(column=energy_type + '_usage', value=0)
+    demand_df[energy_type] = -emission_tax
+    demand_df[energy_type] = 0
 
 for energy_type in ['thermal', 'combustion']:
-    demand_df.insert(column=energy_type, value=non_emission_tax)
-    demand_df.insert(column=energy_type + '_usage', value=0)
+    demand_df[energy_type]= non_emission_tax
+    demand_df[energy_type + '_usage'] = 0
 
     
 
