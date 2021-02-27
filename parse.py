@@ -5,8 +5,9 @@ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 
 nb_zones = ['z1', 'z2', 'z3', 'z4', 'z5', 'z6', 'z7']
 total_zones = nb_zones.copy() + ['z8', 'z9', 'z10', 'z11']
 
-#incentive_rates = open('Information/IncentiveRates.csv', 'r').readlines()[0].split(',')
-[emission_tax, non_emission_tax] = [0.015, 0.009] # [float(x) for x in incentive_rates]
+#incentive_rates = [''.join([x for x in s if x.isalnum()]) for s in open('Information/IncentiveRates.csv', 'r').readlines()[0].split(',')]
+incentive_rates = pd.read_csv('Information/IncentiveRates.csv', header=None)
+[emission_tax, non_emission_tax] = incentive_rates.values[0]
 
 # penalty_values = [[float(x) for x in y.split(',')] for y in open('Information/PenaltyValues.csv', 'r').readlines()]
 
