@@ -16,14 +16,14 @@ power_usage = get_predicted_power_usage(CUR_YEAR)
 penalties = np.array(penalty_values.iloc[0:, 1:])
 ppr = np.array(plant_production_rates.iloc[0:, 1:])
 
-Pg = np.dot(ppr, get_class_mat())
-Pn = []
-for i in range(12):
-    tmp = []
-    for j in range(7):
-        tmp.append(power_usage.iloc[i][j] - sum(Pg[j]))
-    Pn.append(tmp)
-Pn = np.array(Pn)
+# Pg = np.dot(ppr, get_class_mat())
+# Pn = []
+# for i in range(12):
+#     tmp = []
+#     for j in range(7):
+#         tmp.append(power_usage.iloc[i][j] - sum(Pg[j]))
+#     Pn.append(tmp)
+# Pn = np.array(Pn)
 
 out = []
 for i in range(12):
@@ -60,26 +60,27 @@ for i in range(12):
     for j in range(len(cur)):
         if j in need_power:
             count = 0
+            best_i = -1
+            best = 10000000000000
+            power_best = 0
+            renewable_best = 0
             for k in ppr_copy:
                 index = 4
                 while (index >= 0 and cur[j] > 0 and k[index] >= 0):
                     change = min(cur[j], k[index])
-                    cur[j] -= change
-                    k[index] -= change
-                    power += change
-                    if (index >= 3):
-                        renewables += change
-                    emitters = 0
-                    if (index < 2):
-                        emitters += change
-                    nonemitters = 0
-                    if (index >= 2):
-                        nonemitters += change
-                    cost += penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                    cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                    if cost_change < best:
+                        best_i = index
+                        best = cost_change
+                        power_best = change
+                        if index >= 3:
+                            renewable_best = change
                     index -= 1
-                if (cur[j] <= 0):
-                    break
                 count += 1
+            if (best_i >= 0):
+                cost += best
+                power += power_best
+                renewables += renewable_best
             
     #Release extra renewables
     count = 0
