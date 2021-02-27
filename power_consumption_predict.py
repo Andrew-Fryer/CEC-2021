@@ -61,6 +61,13 @@ generate_monthly_adjustments:
 '''
 
 
+def initialize_models():
+    return [generate_models(trend_2015),
+            generate_models(trend_2016),
+            generate_models(trend_2017),
+            generate_models(trend_2018)]
+
+
 def generate_monthly_adjustments(zone_models):
     monthly_models = []
     years = np.array([i for i in range(len(zone_models))])
@@ -118,10 +125,10 @@ get_predicted_power_usage:
 '''
 
 
-def get_predicted_power_usage(models, year):
+def get_predicted_power_usage(year):
     out = []
     for i in range(NUMBER_OF_MONTHS):
-        month_data = [zone_power_pred(j, year-2015, i, models)
+        month_data = [zone_power_pred(j, year-2015, i, initialize_models())
                       for j in range(NUMBER_OF_ZONES)]
         out.append(month_data)
     return pd.DataFrame(out)
