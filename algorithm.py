@@ -39,7 +39,6 @@ def algorithm(year):
         for j in range(len(cur)):
             if cur[j] > 0:
                 need_power.append(j)
-        
         for j in range(len(cur)):
             if j in need_power:
                 count = 0
@@ -90,4 +89,4 @@ def algorithm(year):
         renewables = renewables/1000000
         out.append([cost, power, renewables/power])
         
-    return out
+    return pd.DataFrame(out)
