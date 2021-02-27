@@ -24,11 +24,11 @@ def visualize_data(pred_consumption):
                "#547980"]
     newMonthLabels = [f"{month} 2022" for month in months]
 
-    actual_energy = all_energy_data.drop(labels=["year", "months"], axis=1)
+    actual_energy = all_energy_data.drop(labels=["year", "months"], axis=1).divide(1000000)
 
     for zone, index, colour in zip(actual_energy, pred_consumption, colours):
         actual = go.Scatter(x=dates,
-                            y=all_energy_data[zone],
+                            y=actual_energy[zone],
                             name=f'{zone} Actual',
                             line=dict(color=colour))
         predicted = go.Scatter(x=newMonthLabels,
@@ -39,8 +39,13 @@ def visualize_data(pred_consumption):
         fig.add_traces([actual, predicted])
 
     fig.update_layout(template="ggplot2",
-                      title="Prediction of Power Usage Per Month By Zone",
+                      title=dict(
+                          text="Prediction of Power Usage Per Month By Zone",
+                          font=dict(
+                              size=36
+                          )
+                      ),
                       xaxis_title="Month and Year",
                       yaxis_title="Power Requirements (GWh)",
-                      legend_title="Legend Title")
+                      legend_title="Legend")
     fig.show()
