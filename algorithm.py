@@ -8,7 +8,7 @@ algorithm:
     
     year - The year to analyze
     
-    output - The requested output in a pandas dataframe
+    output - The requested output returned in a pandas dataframe
 '''
 def algorithm(year):
     #Load and process neccessary data
@@ -18,7 +18,7 @@ def algorithm(year):
     ppr = np.array(plant_production_rates.iloc[0:, 1:])
     
     #Loop over every month and calculate total cost, power consumption, and renewables
-    out = []
+    output = []
     for i in range(12):
         demand_for_current_month = np.array(power_usage[0].iloc[i])
         power = 0
@@ -27,26 +27,26 @@ def algorithm(year):
         ppr_copy = ppr.copy()
         #Use local power first
         for j in range(len(demand_for_current_month)):
-            index = 4
+            energy_index = 4
             #Loop through all energy sources, trying to use renewables first
-            while (index >= 0 and demand_for_current_month[j] > 0 and ppr_copy[j][index] >= 0): 
-                change = min(demand_for_current_month[j], ppr_copy[j][index])
+            while (energy_index >= 0 and demand_for_current_month[j] > 0 and ppr_copy[j][energy_index] >= 0): 
+                change = min(demand_for_current_month[j], ppr_copy[j][energy_index])
                 #Decrement needed and used power
                 demand_for_current_month[j] -= change
-                ppr_copy[j][index] -= change
+                ppr_copy[j][energy_index] -= change
                 power += change
                 #Add values where approriate
-                if (index >= 3):
+                if (energy_index >= 3):
                     renewables += change
                 emitters = 0
-                if (index == 0 or index == 2):
+                if (energy_index == 0 or energy_index == 2):
                     emitters += change
                 nonemitters = 0
-                if (index == 1 or index >= 3):
+                if (energy_index == 1 or energy_index >= 3):
                     nonemitters += change
                 #Update cost
                 cost += penalties[j][j]*change + emitters*emission_tax - nonemitters*non_emission_tax
-                index -= 1
+                energy_index -= 1
         
         #Deal with zones who didnt have enough power
         need_power = []
@@ -62,24 +62,24 @@ def algorithm(year):
             power_best = 0
             renewable_best = 0
             for k in ppr_copy:
-                index = 4
-                while (index >= 0 and demand_for_current_month[j] > 0 and k[index] >= 0):
-                    change = min(demand_for_current_month[j], k[index])
+                energy_index = 4
+                while (energy_index >= 0 and demand_for_current_month[j] > 0 and k[energy_index] >= 0):
+                    change = min(demand_for_current_month[j], k[energy_index])
                     #Add values where approriate
                     emitters = 0
-                    if (index == 0 or index == 2):
+                    if (energy_index == 0 or energy_index == 2):
                         emitters += change
                     nonemitters = 0
-                    if (index == 1 or index >= 3):
+                    if (energy_index == 1 or energy_index >= 3):
                         nonemitters += change
-                    cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                    cost_change = penalties[count][j]*change + emitters*emission_tax - nonemitters*non_emission_tax
                     if cost_change < best:
-                        best_i = index
+                        best_i = energy_index
                         best = cost_change
                         power_best = change
-                        if index >= 3:
+                        if energy_index >= 3:
                             renewable_best = change
-                    index -= 1
+                    energy_index -= 1
                 count += 1
             if (best_i >= 0):
                 cost += best
@@ -109,8 +109,8 @@ def algorithm(year):
                 
         power = power/1000000
         renewables = renewables/1000000
-        out.append([cost, power, 100*renewables/power])
+        output.append([cost, power, 100*renewables/power])
         
-    return pd.DataFrame(out)
+    return pd.DataFrame(output)
 
 algorithm(2019)
