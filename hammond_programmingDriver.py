@@ -3,12 +3,10 @@ from power_consumption_predict import *
 from visualize import *
 from algorithm import *
 
-
 if __name__ == '__main__':
     import os
 
-    months = ['Jan', 'Feb', 'Mar', 'Apr',
-                                   'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
     # Level 1
     # Calculate power usage predictions (and convert to GWh)
@@ -27,7 +25,6 @@ if __name__ == '__main__':
     # Level 2
     # Optimize the Costs
     costs_output = algorithm(2022)
-    costs_output.columns = [
-        'Provincial Cost ($)', 'Total Power Consumed (GWh)', 'Renewable Power Used (%)']
+    costs_output.columns = ['Provincial Cost ($)', 'Total Power Consumed (GWh)', 'Renewable Power Used (%)']
     costs_output.index = months
     costs_output.to_csv(r"./L2_output.csv")
