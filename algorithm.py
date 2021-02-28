@@ -39,10 +39,10 @@ def algorithm(year):
                 if (index >= 3):
                     renewables += change
                 emitters = 0
-                if (index < 2):
+                if (index == 0 or index == 2):
                     emitters += change
                 nonemitters = 0
-                if (index >= 2):
+                if (index == 1 or index >= 3):
                     nonemitters += change
                 #Update cost
                 cost += penalties[j][j]*change + emitters*emission_tax - nonemitters*non_emission_tax
@@ -66,6 +66,13 @@ def algorithm(year):
                     index = 4
                     while (index >= 0 and cur[j] > 0 and k[index] >= 0):
                         change = min(cur[j], k[index])
+                        #Add values where approriate
+                        emitters = 0
+                        if (index == 0 or index == 2):
+                            emitters += change
+                        nonemitters = 0
+                        if (index == 1 or index >= 3):
+                            nonemitters += change
                         cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
                         if cost_change < best:
                             best_i = index
@@ -103,7 +110,7 @@ def algorithm(year):
                 
         power = power/1000000
         renewables = renewables/1000000
-        out.append([cost, power, renewables/power])
+        out.append([cost, power, 100*renewables/power])
         
     return pd.DataFrame(out)
 
