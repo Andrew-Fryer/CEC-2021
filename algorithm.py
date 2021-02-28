@@ -54,40 +54,39 @@ def algorithm(year):
         for j in range(len(demand_for_current_month)):
             if demand_for_current_month[j] > 0:
                 need_power.append(j)
-        for j in range(len(demand_for_current_month)):
-            if j in need_power:
-                #Loop through zones with excess power, saving the lowest cost
-                count = 0
-                best_i = -1
-                best = 10000000000000
-                power_best = 0
-                renewable_best = 0
-                for k in ppr_copy:
-                    index = 4
-                    while (index >= 0 and demand_for_current_month[j] > 0 and k[index] >= 0):
-                        change = min(demand_for_current_month[j], k[index])
-                        #Add values where approriate
-                        emitters = 0
-                        if (index == 0 or index == 2):
-                            emitters += change
-                        nonemitters = 0
-                        if (index == 1 or index >= 3):
-                            nonemitters += change
-                        cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
-                        if cost_change < best:
-                            best_i = index
-                            best = cost_change
-                            power_best = change
-                            if index >= 3:
-                                renewable_best = change
-                        index -= 1
-                    count += 1
-                if (best_i >= 0):
-                    cost += best
-                    power += power_best
-                    renewables += renewable_best
-                    demand_for_current_month[j] -= power_best
-                    ppr_copy[j][best_i] -= power_best
+        for j in need_power:
+            #Loop through zones with excess power, saving the lowest cost
+            count = 0
+            best_i = -1
+            best = 10000000000000
+            power_best = 0
+            renewable_best = 0
+            for k in ppr_copy:
+                index = 4
+                while (index >= 0 and demand_for_current_month[j] > 0 and k[index] >= 0):
+                    change = min(demand_for_current_month[j], k[index])
+                    #Add values where approriate
+                    emitters = 0
+                    if (index == 0 or index == 2):
+                        emitters += change
+                    nonemitters = 0
+                    if (index == 1 or index >= 3):
+                        nonemitters += change
+                    cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                    if cost_change < best:
+                        best_i = index
+                        best = cost_change
+                        power_best = change
+                        if index >= 3:
+                            renewable_best = change
+                    index -= 1
+                count += 1
+            if (best_i >= 0):
+                cost += best
+                power += power_best
+                renewables += renewable_best
+                demand_for_current_month[j] -= power_best
+                ppr_copy[j][best_i] -= power_best
                 
         #Release extra renewables
         count = 0
