@@ -20,10 +20,7 @@ for t in supply_dict:
     supply_left_dict[t] = supply_dict[t]
 
 
-# for each month:
-# First, try to distribute power most efficiently
-
-# Then, ensure that each zone gets enough power
+# Ensure that each zone gets enough power
 cost = 0
 usages = {}
 for zone_index in range(len(nb_zones)):
@@ -45,11 +42,3 @@ for zone_index in range(len(nb_zones)):
         demand -= usage
         cost += penalty_factor * usage
     assert(demand == 0)
-
-# Finally, sell any leftover power
-for t in supply_left_dict:
-    # sell
-    pass
-
-
-pass
