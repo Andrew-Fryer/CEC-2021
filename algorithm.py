@@ -8,7 +8,7 @@ algorithm:
     
     year - The year to analyze
     
-    output - The requested output in a pandas dataframe
+    output - The requested output returned in a pandas dataframe
 '''
 def algorithm(year):
     #Load and process neccessary data
@@ -18,7 +18,7 @@ def algorithm(year):
     ppr = np.array(plant_production_rates.iloc[0:, 1:])
     
     #Loop over every month and calculate total cost, power consumption, and renewables
-    out = []
+    output = []
     for i in range(12):
         demand_for_current_month = np.array(power_usage[0].iloc[i])
         power = 0
@@ -109,8 +109,8 @@ def algorithm(year):
                 
         power = power/1000000
         renewables = renewables/1000000
-        out.append([cost, power, 100*renewables/power])
+        output.append([cost, power, 100*renewables/power])
         
-    return pd.DataFrame(out)
+    return pd.DataFrame(output)
 
 algorithm(2019)
