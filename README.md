@@ -49,8 +49,6 @@ Simple greedy algorithm implementation for cost analysis (this approach is no lo
 
 Shows which energies are emissive and non-emissive
 
-### zone_scoring.py
-
 ### algorithm.py
 
 Contains the function which runs the optimizing algorithm on a year of energy data for New Brunswick
