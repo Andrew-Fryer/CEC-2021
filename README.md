@@ -41,7 +41,9 @@ Predicts the future energy consumption of each New Brunswick zone per month
 
 Creates the visualization of the past and predicted data
 
-### greedy_algorithm.py
+### greedy_algorithm.py (deprecated)
+
+Simple greedy algorithm implementation for cost analysis (this approach is no longer used)
 
 ### clean_energy_types.py
 
@@ -51,11 +53,11 @@ Shows which energies are emissive and non-emissive
 
 ### algorithm.py
 
-### algorithm_matrix.py
+Contains the function which runs the optimizing algorithm on a year of energy data for New Brunswick
 
-### zone-scoring.py
+### zone-scoring.py (deprecated)
 
-Initial file with thought process notes for algorithm (deprecated)
+Initial file with thought process notes for algorithm
 
 ## Built With
 
