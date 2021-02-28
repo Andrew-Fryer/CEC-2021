@@ -68,7 +68,7 @@ def plot_memory_use(history, fn_name, open_figure=True, offset=0, **kwargs):
     
     # legend
     # plt.legend();
-    plt.show()
+    # plt.show()
 
 def track_memory_use(plot=True, close=True, return_history=False):
     

@@ -10,6 +10,7 @@ algorithm:
     
     output - The requested output returned in a pandas dataframe
 '''
+@track_memory_use(close=False, return_history=False, plot=True)
 def algorithm(year):
     #Load and process neccessary data
     power_usage = get_predicted_power_usage(year)
@@ -112,3 +113,9 @@ def algorithm(year):
         output.append([cost, power, 100*renewables/power])
         
     return pd.DataFrame(output)
+
+
+
+if __name__ == "__main__":
+    algorithm(2022)
+
