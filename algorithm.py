@@ -112,5 +112,3 @@ def algorithm(year):
         output.append([cost, power, 100*renewables/power])
         
     return pd.DataFrame(output)
-
-algorithm(2019)
