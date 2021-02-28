@@ -72,7 +72,7 @@ def algorithm(year):
                     nonemitters = 0
                     if (energy_index == 1 or energy_index >= 3):
                         nonemitters += change
-                    cost_change = penalties[count][j]*change + emitters*emission_tax + nonemitters*non_emission_tax
+                    cost_change = penalties[count][j]*change + emitters*emission_tax - nonemitters*non_emission_tax
                     if cost_change < best:
                         best_i = energy_index
                         best = cost_change
